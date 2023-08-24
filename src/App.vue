@@ -53,7 +53,7 @@ export default {
       return this.selectedVideosDuration <= this.totalDurationLimit
     },
     selectedVideosDuration() {
-      return this.selectedVideos.reduce((total, video) => total + parseInt(video.value), 0);
+      return this.selectedVideos.reduce((total, video) => total + parseFloat(video.value), 0);
     }
   },
   methods: {
