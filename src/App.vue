@@ -1,18 +1,27 @@
 <template>
-  <div class="app">
-    <div class = "top section">
-      <h1 class="title">YouTube Videos</h1>
-      <p>You have selected {{ selectedVideosDuration }} of your 8 videos</p>
-      <button v-if="playPossible" @click="playSelectedVideos">Play Selected Videos</button>
+  <div class="app has-background-danger-light has-text-danger">
+    <div class = "top has-background-danger-light">
+      <div class="columns">
+        <div class="column is-4 is-flex is-align-items-center is-justify-content-center">
+          <p v-if="!showSelectedVideos">You have selected {{ selectedVideosDuration }} of your 8 videos</p>
+        </div>
+        <div class="column is-4 is-flex is-align-items-center is-justify-content-center">
+          <h1 class="title has-text-danger is-size-1">Maya's Songs</h1>
+        </div>
+        <div class="column is-4 is-flex is-align-items-center is-justify-content-center" v-if="!showSelectedVideos">
+          <button class = "button is-danger" v-if="playPossible" @click="playSelectedVideos">Play</button>
+        </div>
+      </div>
     </div>
 
-    <div class="video-selection" v-if="!showSelectedVideos">
+    <div class="video-selection columns is-multiline" v-if="!showSelectedVideos">
         <VideoSelect
           v-for="(video, index) in videos"
           :key="index"
           :video="video"
           :isSelected="selectedVideos.includes(video)"
           @toggle-selection="toggleVideoSelection"
+          class="column is-4"
         />
     </div>
       <SelectedVideos v-if="showSelectedVideos" :selectedVideos="selectedVideos" />
@@ -112,6 +121,8 @@ export default {
 .app {
   text-align: center;
   padding: 2rem;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
 }
 
 .top {
@@ -121,8 +132,16 @@ export default {
   z-index: 1;
 }
 
-
 .video-container {
   margin: 1rem 0;
+}
+
+.title {
+  font-family: 'Amatic SC', cursive;
+}
+
+.button {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
 }
 </style>

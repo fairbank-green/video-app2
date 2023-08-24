@@ -1,6 +1,5 @@
 <template>
   <div class="selected-videos">
-    <h2>Selected Videos</h2>
     <div v-for="(video, index) in selectedVideos" :key="index" class="video-container">
       <VideoPlayer :video="video" />
     </div>

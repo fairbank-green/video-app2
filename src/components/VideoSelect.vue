@@ -1,15 +1,10 @@
 <template>
-  <div class="container is-primary">
-    <div class="section" @click="toggleSelection">
-      <div class="columns video-select" :class="{ 'selected': isSelected }">
-          <div class="column">
-            <!-- <input type="checkbox" class="check-hidden"/> -->
-            <img :src="thumbnailUrl" alt="Video Thumbnail" />
-          </div>
-          <div class="column">
-            <p>This video counts as {{this.video.value}}</p>
-          </div>
-        </div>
+  <div class="container">
+    <div class="block" @click="toggleSelection">
+      <div class="video-select" :class="{ 'selected': isSelected }">
+        <p>This video counts as {{this.video.value}}</p>
+        <img :src="thumbnailUrl" alt="Video Thumbnail" />
+      </div>
     </div>
   </div>
 </template>
@@ -51,7 +46,9 @@ export default {
 }
 
 .selected {
-  background-color: #f0f0f0; /* Apply a background color to highlight selected videos */
+  background-color: hsl(171, 100%, 41%);
+  color: hsl(0, 0%, 100%);
+  font-weight: bold;
 }
 
 </style>
