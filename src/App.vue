@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <div class = "top">
+    <div class = "top section">
       <h1 class="title">YouTube Videos</h1>
       <p>You have selected {{ selectedVideosDuration }} of your 8 videos</p>
       <button v-if="playPossible" @click="playSelectedVideos">Play Selected Videos</button>
@@ -12,7 +12,7 @@
           :key="index"
           :video="video"
           :isSelected="selectedVideos.includes(video)"
-          @checkbox-changed="handleCheckboxChanged(video, $event)"
+          @toggle-selection="toggleVideoSelection"
         />
     </div>
       <SelectedVideos v-if="showSelectedVideos" :selectedVideos="selectedVideos" />
@@ -93,18 +93,14 @@ export default {
       const durationArray = video.duration.split(":");
       return parseInt(durationArray[0])*60 + parseInt(durationArray[1]);
     },
-    handleCheckboxChanged(video, isSelected) {
-      if (isSelected) {
-        // Add the video URL to the selectedVideos array
-        this.selectedVideos.push(video);
-      } else {
-        // Remove the video URL from the selectedVideos array
-        const index = this.selectedVideos.indexOf(video);
-        if (index !== -1) {
-          this.selectedVideos.splice(index, 1);
-        }
-      }
-    }
+    toggleVideoSelection(video) {
+          const index = this.selectedVideos.indexOf(video);
+          if (index !== -1) {
+            this.selectedVideos.splice(index, 1);
+          } else {
+            this.selectedVideos.push(video);
+          }
+      },
   },
   mounted() {
     this.fetchVideoUrls();
