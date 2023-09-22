@@ -1,8 +1,10 @@
 <template>
   <div class="selected-videos">
-    <div v-for="(video, index) in selectedVideos" :key="index" class="video-container">
-      <VideoPlayer :video="video" />
-    </div>
+    <div class="columns is-multiline">
+      <div v-for="(video, index) in selectedVideos" :key="index" class="video-container column is-4">
+        <VideoPlayer :video="video" :index="index"/>
+      </div>
+  </div>
   </div>
 </template>
 

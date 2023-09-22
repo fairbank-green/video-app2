@@ -1,7 +1,4 @@
 npm run build
-cd dist
-git init
-git add -A
-git commit -m 'deploy'
-git push -f git@github.com:fairbank-green/video-app.git master:gh-pages
-cd -
+git add dist -f
+git commit -m "adding dist"
+git subtree push --prefix dist origin gh-pages
