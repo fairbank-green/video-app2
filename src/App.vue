@@ -3,7 +3,7 @@
     <div class = "top has-background-danger-light">
       <div class="columns">
         <div class="column is-4 is-flex is-align-items-center is-justify-content-center">
-          <p v-if="!showSelectedVideos">You have selected {{ selectedVideosDuration }} of your 8 songs</p>
+          <p v-if="!showSelectedVideos">You have selected {{ selectedVideosDuration }} of your {{totalDurationLimit}} songs</p>
         </div>
         <div class="column is-4 is-flex is-align-items-center is-justify-content-center">
           <h1 class="title has-text-danger is-size-1">{{name}}'s Songs</h1>
@@ -40,7 +40,7 @@ export default{
       return {
         videos: [],
         selectedVideos: [],
-        totalDurationLimit: 8, // total video value of 8
+        totalDurationLimit: Number, // total video value of 8
         showSelectedVideos: false,
         name: ""
       };
