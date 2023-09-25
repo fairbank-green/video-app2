@@ -1,12 +1,16 @@
 <template>
   <div class="video-player">
-    <iframe
-      :id="playerId"
-      :src="embeddedUrl"
-      frameborder="0"
-      allowfullscreen
-    >
-    </iframe>
+    <div class = "hytPlayerWrapOuter">
+      <div class = "hytPlayerWrap">
+        <iframe
+          :id="playerId"
+          :src="embeddedUrl"
+          frameborder="0"
+          allowfullscreen
+        >
+        </iframe>
+      </div>
+    </div>
   </div>
 </template>
 
