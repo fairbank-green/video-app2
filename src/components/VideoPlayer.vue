@@ -1,22 +1,13 @@
 <template>
   <div class="video-player">
-    <div class = "hytPlayerWrapOuter">
-      <div class = "hytPlayerWrap">
-        <iframe
-          :id="playerId"
-          :src="embeddedUrl"
-          frameborder="0"
-          allowfullscreen
-        >
-        </iframe>
-      </div>
+    <div :id = 'playerId'>
     </div>
   </div>
 </template>
 
 <script>
 
-export default{
+export default {
   name: "VideoPlayer",
   props: {
     video: {
@@ -30,11 +21,9 @@ export default{
   },
   data() {
     return{
-      playerId: 'youtube-player' + this.index
+      playerId: 'youtube-player' + this.index,
+      player: null
     }
-  },
-  mounted() {
-    this.initYouTubePlayer();
   },
   computed: {
     embeddedUrl() {
@@ -47,24 +36,62 @@ export default{
       const match = url.match(/(?:\/embed\/|v=|\/\d{2,4}\/|youtu\.be\/|\/v\/|\/e\/|\/u\/\d{1,2}\/|\/embed\/|\/v\/|e\/|u\/\d{1,2}\/|^youtu\.be\/)([^#?\s]+)/);
       return match && match[1].length === 11 ? match[1] : null;
     },
+    onPlayerStateChange(event){
+      const iframe = document.getElementById(this.playerId);
+
+      switch(event.data){
+        case 0:
+          console.log("video ended");
+          //document.exitFullscreen();
+          break;
+        case 1:
+          console.log("video playing");
+          //iframe.requestFullscreen();
+          break;
+        case 2:
+          //console.log("video paused");
+      }
+    },
     initYouTubePlayer() {
-      new window.YT.Player(this.playerId, {
-        videoId: this.extractVideoId(this.video.url), // Replace with your YouTube video ID
-        playerVars: {
-          rel: 0, // Disable related videos
-          autoplay: 1, // Autoplay video
-          fs: 1
-        },
+      const videoId = this.extractVideoId(this.video.url);
+
+      this.player = new YT.Player(this.playerId, {
+        height: '100%',
+        width: '100%',
+        videoId,
         events: {
-          onReady: this.onPlayerReady,
+          'onStateChange': this.onPlayerStateChange,
         },
       });
-    },
-    onPlayerReady(event) {
-      // Play the video when it's ready
-      event.target.playVideo();
-    },
+    }
   },
+  mounted() {
+    if (typeof YT !== 'undefined') {
+      this.initYouTubePlayer();
+    } else {
+      // If YT is not yet defined, set a timer to check for its availability
+      const maxRetryAttempts = 5; // Define the maximum number of retry attempts
+      let retryCount = 0;
+
+      const checkYouTubeAPI = () => {
+        if (typeof YT !== 'undefined') {
+          // The YouTube API is ready, initialize the player
+          this.initYouTubePlayer();
+        } else if (retryCount < maxRetryAttempts) {
+          // Retry if the maximum retry attempts have not been reached
+          retryCount++;
+          setTimeout(checkYouTubeAPI, 1000); // Retry after 1 second (adjust as needed)
+        } else {
+          // Handle the case where the API failed to load after max attempts
+          console.error('YouTube API failed to load after multiple retries');
+          // You can display an error message or take appropriate action
+        }
+      };
+
+      // Start the initial check for the YouTube API
+      checkYouTubeAPI();
+    }
+  }
 }
 </script>
 
@@ -72,5 +99,6 @@ export default{
 .video-player {
   text-align: center;
   padding: 1rem;
+  display: block;
 }
 </style>

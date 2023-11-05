@@ -30,8 +30,8 @@ export default {
     extractVideoId(url) {
       const match = url.match(/(?:\/embed\/|v=|\/\d{2,4}\/|youtu\.be\/|\/v\/|\/e\/|\/u\/\d{1,2}\/|\/embed\/|\/v\/|e\/|u\/\d{1,2}\/|^youtu\.be\/)([^#?\s]+)/);
       return match && match[1].length === 11 ? match[1] : null;
-    },
-  },
+    }
+  }
 };
 </script>
 
