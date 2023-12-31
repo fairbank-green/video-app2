@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" @click="handleVideoClick">
-    <div class="video-player hytPlayerWrap">
+    <div class="video-player">
       <div :id = 'playerId'>
       </div>
     </div>
@@ -24,6 +24,7 @@ export default {
   data() {
     return{
       playerId: 'youtube-player' + this.index,
+      overlayId: 'overlay' + this.index,
       player: null
     }
   },
@@ -40,7 +41,7 @@ export default {
     },
     onPlayerReady(event){
       event.target.playVideo();
-      const iframe = document.getElementById(this.playerId);
+      const iframe = document.getElementById(this.playerId).parentNode;
       iframe.requestFullscreen();
       this.fullscreen = false;
     },
@@ -80,20 +81,21 @@ export default {
       });
     },
     handleVideoClick() {
-      const iframe = document.getElementById(this.playerId);
-      const player = document.getElementById(this.playerId).parentNode;
-      const playerWrap = document.getElementById(this.playerId).parentNode.parentNode;
+      const player = document.getElementById(this.playerId);
 
       if (this.player && this.player.getPlayerState() === YT.PlayerState.PLAYING) {
         // If the video is playing, pause it when the container is clicked
         this.player.pauseVideo();
-        player.style.zIndex = "-1";
-        playerWrap.style.backgroundColor= "black";
+        player.style.width = "0%";
+        player.style.height = "0%";
+
       } else if(this.player && this.player.getPlayerState() === YT.PlayerState.PAUSED){
         // If the video is paused, play it when the container is clicked
+
         this.player.playVideo();
-        player.style.zIndex = "1";
-        playerWrap.style.backgroundColor= "transparent";
+        setTimeout(() => {
+          player.style.width = "100%";
+          player.style.height = "100%";}, 300);
       }
     }
   },
@@ -132,6 +134,7 @@ export default {
     text-align: center;
     padding: 0rem;
     display: block;
+    background-color: black
   }
 
    .video-player  {
