@@ -47,17 +47,19 @@ export default {
     },
     onPlayerStateChange(event){
       const iframe = document.getElementById(this.playerId);
-      // const playerWrap = document.getElementById(this.playerId).parentNode;
 
       switch(event.data){
         case 0:
           //playerWrap.classList.add("ended");
+          player.style.width = "0%";
+          player.style.height = "0%";
           break;
         case 1:
           //playerWrap.classList.remove("ended");playerWrap.classList.remove("paused");
           break;
         case 2:
           //playerWrap.classList.add("paused");
+          break
       }
     },
     initYouTubePlayer() {
@@ -134,7 +136,11 @@ export default {
     text-align: center;
     padding: 0rem;
     display: block;
-    background-color: black
+    background-color: black;
+    background-image: url("../../public/play.png");
+    background-repeat: no-repeat;
+    background-size: 10% auto;
+    background-position: center;
   }
 
    .video-player  {
