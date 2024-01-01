@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper" @click="handleVideoClick">
     <div class="video-player">
+      <div class = "play"></div>
       <div :id = 'playerId'>
       </div>
     </div>
@@ -47,7 +48,8 @@ export default {
 
       //Set paused video background as thumbnail image
       const container = document.getElementById(this.playerId).parentNode;
-      container.style.backgroundImage = "url(" + this.thumbnailUrl+ ")";
+      //container.style.backgroundImage = "url(" + this.thumbnailUrl+ ")";
+      container.style.backgroundImage = "url('../../public/play.png')";
       // event.target.playVideo();
       // const iframe = document.getElementById(this.playerId).parentNode;
       // iframe.requestFullscreen();
@@ -157,9 +159,6 @@ export default {
     background-repeat: no-repeat;
     background-size: 100% auto;
     background-position: center;
-  }
-
-   .video-player  {
     overflow: hidden;
     width: 100%;
     aspect-ratio: 16/9;
@@ -178,4 +177,5 @@ export default {
      max-width: 100%;
      position: relative
   }
+
 </style>
