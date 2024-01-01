@@ -40,13 +40,13 @@ export default {
       return match && match[1].length === 11 ? match[1] : null;
     },
     onPlayerReady(event){
-      event.target.playVideo();
-      const iframe = document.getElementById(this.playerId).parentNode;
-      iframe.requestFullscreen();
-      this.fullscreen = false;
+      // event.target.playVideo();
+      // const iframe = document.getElementById(this.playerId).parentNode;
+      // iframe.requestFullscreen();
+      // this.fullscreen = false;
     },
     onPlayerStateChange(event){
-      const iframe = document.getElementById(this.playerId);
+      const player = document.getElementById(this.playerId);
 
       switch(event.data){
         case 0:
@@ -84,7 +84,7 @@ export default {
     },
     handleVideoClick() {
       const player = document.getElementById(this.playerId);
-
+      console.log(this.player.getPlayerState());
       if (this.player && this.player.getPlayerState() === YT.PlayerState.PLAYING) {
         // If the video is playing, pause it when the container is clicked
         this.player.pauseVideo();
@@ -93,6 +93,13 @@ export default {
 
       } else if(this.player && this.player.getPlayerState() === YT.PlayerState.PAUSED){
         // If the video is paused, play it when the container is clicked
+
+        this.player.playVideo();
+        setTimeout(() => {
+          player.style.width = "100%";
+          player.style.height = "100%";}, 300);
+      }else if(this.player && this.player.getPlayerState() === YT.PlayerState.CUED){
+        // If the video is cued, play it when the container is clicked
 
         this.player.playVideo();
         setTimeout(() => {
