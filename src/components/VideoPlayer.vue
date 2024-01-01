@@ -33,6 +33,10 @@ export default {
       const videoId = this.extractVideoId(this.video.url);
       return `https://www.youtube.com/embed/${videoId}`;
     },
+    thumbnailUrl() {
+      const videoId = this.extractVideoId(this.video.url);
+      return `https://img.youtube.com/vi/${videoId}/0.jpg`;
+    },
   },
   methods: {
     extractVideoId(url) {
@@ -40,6 +44,10 @@ export default {
       return match && match[1].length === 11 ? match[1] : null;
     },
     onPlayerReady(event){
+
+      //Set paused video background as thumbnail image
+      const container = document.getElementById(this.playerId).parentNode;
+      container.style.backgroundImage = "url(" + this.thumbnailUrl+ ")";
       // event.target.playVideo();
       // const iframe = document.getElementById(this.playerId).parentNode;
       // iframe.requestFullscreen();
@@ -84,7 +92,7 @@ export default {
     },
     handleVideoClick() {
       const player = document.getElementById(this.playerId);
-      console.log(this.player.getPlayerState());
+
       if (this.player && this.player.getPlayerState() === YT.PlayerState.PLAYING) {
         // If the video is playing, pause it when the container is clicked
         this.player.pauseVideo();
@@ -98,6 +106,7 @@ export default {
         setTimeout(() => {
           player.style.width = "100%";
           player.style.height = "100%";}, 300);
+
       }else if(this.player && this.player.getPlayerState() === YT.PlayerState.CUED){
         // If the video is cued, play it when the container is clicked
 
@@ -144,9 +153,9 @@ export default {
     padding: 0rem;
     display: block;
     background-color: black;
-    background-image: url("../../public/play.png");
+    /* background-image: url("../../public/play.png"); */
     background-repeat: no-repeat;
-    background-size: 10% auto;
+    background-size: 100% auto;
     background-position: center;
   }
 
