@@ -57,19 +57,29 @@ export default {
     },
     onPlayerStateChange(event){
       const player = document.getElementById(this.playerId);
+      const playIcon = document.getElementById(this.playerId).parentNode.querySelector(".play");
 
       switch(event.data){
-        case 0:
-          //playerWrap.classList.add("ended");
-          player.style.width = "0%";
-          player.style.height = "0%";
+        case 0://ended
+          this.hideElement(player);
+          this.hideElement(playIcon);
           break;
-        case 1:
-          //playerWrap.classList.remove("ended");playerWrap.classList.remove("paused");
+        case 1://play
+          setTimeout(() => {
+            this.showElement(player);
+            this.hideElement(playIcon);
+            }, 300)
           break;
-        case 2:
-          //playerWrap.classList.add("paused");
-          break
+        case 2://paused
+          this.hideElement(player);
+          this.showElement(playIcon);
+          break;
+        case 5://cued
+          setTimeout(() => {
+            this.showElement(player);
+            this.hideElement(playIcon);
+            }, 300)
+          break;
       }
     },
     initYouTubePlayer() {
@@ -94,36 +104,27 @@ export default {
     },
     handleVideoClick() {
       const player = document.getElementById(this.playerId);
-      const playIcon = document.getElementById(this.playerId).parentNode.querySelector(".play");
 
       if (this.player && this.player.getPlayerState() === YT.PlayerState.PLAYING) {
         // If the video is playing, pause it when the container is clicked
         this.player.pauseVideo();
-        playIcon.style.width = "100%";
-        playIcon.style.height = "100%";
-        player.style.width = "0%";
-        player.style.height = "0%";
 
       } else if(this.player && this.player.getPlayerState() === YT.PlayerState.PAUSED){
         // If the video is paused, play it when the container is clicked
-
         this.player.playVideo();
-        setTimeout(() => {
-          playIcon.style.width = "0%";
-          playIcon.style.height = "0%";
-          player.style.width = "100%";
-          player.style.height = "100%";}, 300);
 
       }else if(this.player && this.player.getPlayerState() === YT.PlayerState.CUED){
         // If the video is cued, play it when the container is clicked
-
         this.player.playVideo();
-        setTimeout(() => {
-          playIcon.style.width = "0%";
-          playIcon.style.height = "0%";
-          player.style.width = "100%";
-          player.style.height = "100%";}, 300);
       }
+    },
+    hideElement(element){
+      element.style.width = "0%"
+      element.style.height = "0%"
+    },
+    showElement(element){
+      element.style.width = "100%"
+      element.style.height = "100%"
     }
   },
   mounted() {
