@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" @click="handleVideoClick">
-    <div class="video-player">
+    <div class="video-player" :id = 'containerId'>
       <div class = "play"></div>
       <div :id = 'playerId'>
       </div>
@@ -25,7 +25,7 @@ export default {
   data() {
     return{
       playerId: 'youtube-player' + this.index,
-      overlayId: 'overlay' + this.index,
+      containerId: 'container' + this.index,
       player: null
     }
   },
@@ -48,8 +48,8 @@ export default {
 
       //Set paused video background as thumbnail image
       const container = document.getElementById(this.playerId).parentNode;
-      //container.style.backgroundImage = "url(" + this.thumbnailUrl+ ")";
-      container.style.backgroundImage = "url('../../public/play.png')";
+      container.style.backgroundImage = "url(" + this.thumbnailUrl+ ")";
+      //container.style.backgroundImage = "url('../../public/play.png')";
       // event.target.playVideo();
       // const iframe = document.getElementById(this.playerId).parentNode;
       // iframe.requestFullscreen();
@@ -94,10 +94,13 @@ export default {
     },
     handleVideoClick() {
       const player = document.getElementById(this.playerId);
+      const playIcon = document.getElementById(this.playerId).parentNode.querySelector(".play");
 
       if (this.player && this.player.getPlayerState() === YT.PlayerState.PLAYING) {
         // If the video is playing, pause it when the container is clicked
         this.player.pauseVideo();
+        playIcon.style.width = "100%";
+        playIcon.style.height = "100%";
         player.style.width = "0%";
         player.style.height = "0%";
 
@@ -106,6 +109,8 @@ export default {
 
         this.player.playVideo();
         setTimeout(() => {
+          playIcon.style.width = "0%";
+          playIcon.style.height = "0%";
           player.style.width = "100%";
           player.style.height = "100%";}, 300);
 
@@ -114,6 +119,8 @@ export default {
 
         this.player.playVideo();
         setTimeout(() => {
+          playIcon.style.width = "0%";
+          playIcon.style.height = "0%";
           player.style.width = "100%";
           player.style.height = "100%";}, 300);
       }
@@ -154,8 +161,6 @@ export default {
     text-align: center;
     padding: 0rem;
     display: block;
-    background-color: black;
-    /* background-image: url("../../public/play.png"); */
     background-repeat: no-repeat;
     background-size: 100% auto;
     background-position: center;
@@ -163,6 +168,17 @@ export default {
     width: 100%;
     aspect-ratio: 16/9;
     pointer-events: none;
+    position: relative;
+  }
+
+  .play {
+    background-image: url("../../public/youtube.png");
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: 40% auto;
+    background-position: center;
+    width: 100%;
+    height: 100%;
   }
 
   .video-player iframe {
