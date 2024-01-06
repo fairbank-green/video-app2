@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" @click="handleVideoClick">
+  <div class="wrapper" @click="handleVideoClick" :class="{ progress: inProgress }">
     <div class="video-player" :id = 'containerId'>
       <div class = "play"></div>
       <div :id = 'playerId'>
@@ -25,8 +25,9 @@ export default {
   data() {
     return{
       playerId: 'youtube-player' + this.index,
-      containerId: 'container' + this.index,
-      player: null
+      player: null,
+      fullscreen: false,
+      inProgress: false
     }
   },
   computed: {
@@ -49,13 +50,10 @@ export default {
       //Set paused video background as thumbnail image
       const container = document.getElementById(this.playerId).parentNode;
       container.style.backgroundImage = "url(" + this.thumbnailUrl+ ")";
-      //container.style.backgroundImage = "url('../../public/play.png')";
-      // event.target.playVideo();
-      // const iframe = document.getElementById(this.playerId).parentNode;
-      // iframe.requestFullscreen();
-      // this.fullscreen = false;
+
     },
     onPlayerStateChange(event){
+      const container = document.getElementById(this.playerId).parentNode;
       const player = document.getElementById(this.playerId);
       const playIcon = document.getElementById(this.playerId).parentNode.querySelector(".play");
 
@@ -63,22 +61,40 @@ export default {
         case 0://ended
           this.hideElement(player);
           this.hideElement(playIcon);
+
+          //Put video to minimized screen
+          document.exitFullscreen();
+          this.fullscreen=false;
+          this.inProgress=false;
           break;
         case 1://play
           setTimeout(() => {
             this.showElement(player);
             this.hideElement(playIcon);
             }, 300)
+          //Put video to full handleScreenChange
+          container.requestFullscreen();
+          this.fullscreen=true;
+          this.inProgress=true;
+          console.log("played")
           break;
         case 2://paused
           this.hideElement(player);
           this.showElement(playIcon);
+
+          //Put video to minimized screen
+          document.exitFullscreen();
+          this.fullscreen=false
           break;
         case 5://cued
           setTimeout(() => {
             this.showElement(player);
             this.hideElement(playIcon);
             }, 300)
+
+          //Put video to full handleScreenChange
+          container.requestFullscreen();
+          this.fullscreen=true;
           break;
       }
     },
@@ -191,8 +207,15 @@ export default {
 
   .wrapper {
      overflow: hidden;
-     max-width: 100%;
-     position: relative
+     width: 100%;
+     height: 100%;
+     position: relative;
+     padding: 1rem;
+  }
+
+  .wrapper.progress{
+    background-color: hsl(171, 100%, 41%);
+    border-radius: 0;
   }
 
 </style>
