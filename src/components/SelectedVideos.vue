@@ -2,7 +2,7 @@
   <div class="selected-videos">
     <div class="columns is-multiline">
       <div v-for="(video, index) in selectedVideos" :key="index" class="video-container column is-4">
-        <VideoPlayer :video="video" :index="index"/>
+        <VideoPlayer :video="video" :index="index" v-if="!video.watched"/>
       </div>
   </div>
   </div>

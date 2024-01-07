@@ -66,6 +66,7 @@ export default {
           document.exitFullscreen();
           this.fullscreen=false;
           this.inProgress=false;
+          this.video.watched=true;
           break;
         case 1://play
           setTimeout(() => {

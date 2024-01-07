@@ -76,6 +76,7 @@ export default{
             let object = {};
             activity_data.forEach((item, i) => {
                 object[titles[i]] = item.replaceAll(';','\n');
+                object["watched"] = false;
             });
             return object;
           });
